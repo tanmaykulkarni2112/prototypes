@@ -1,0 +1,10 @@
+{
+    "name": "tanmay",
+    "age":22,
+    "skills": ["procrastination", "self-doubt"],
+    "author": {
+        "real_name": "Tanmay Kulkarni",
+        "github": "tanmaykulkarni2112",
+        "role": "intern"
+    }
+}

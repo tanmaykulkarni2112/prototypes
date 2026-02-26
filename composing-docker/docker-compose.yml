@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+
+  # These are just the names
+  frontend:
+    # Tells where the dockerfile is located
+    build: ./frontend
+    # Since we can have multiple ports used, we represent it as list
+    # The first port is port on local machine and the second port is port on container
+    ports:
+      - 3000:3000
+    # Frontend depends on backend service
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:3001
+
+  backend:
+    build: ./backend
+    ports:
+      - 3001:3001
+    # The environments will also be represented as list
+    environment:
+      - DB_URL=mongodb://database:27017/tanmaydb
+      - PORT=3001
+    depends_on:
+      - database
+
+
+  database:
+    image: mongo:latest
+    # database will listen on this port
+    ports:
+      - 27017:27017
+    # rather than storing the data in container
+    # we want to store it in volumes. Volume will be stored outside the container
+    volumes:
+      - mockdatabase:/data/db
+
+# Defining the volumes
+volumes:
+  mockdatabase:
