@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
@@ -16,6 +18,13 @@ type Device struct {
 
 // making the devices slice globally avaiable
 var dvs []Device
+var version string
+
+// Creating our OWN METRIC
+type metrics struct {
+	devices prometheus.Gauge
+	info    *prometheus.GaugeVec
+}
 
 func init() {
 	// Initialize some mock devices
@@ -23,9 +32,33 @@ func init() {
 		{Id: 1, Mac: "5F-33-CC-1F-43-82", Firmware: "1.0.6"},
 		{Id: 2, Mac: "6F-38-CD-8F-13-12", Firmware: "1.0.0"},
 	}
+	version = "1.0.0"
+}
+
+// for defining metrics
+func newMetrics(reg prometheus.Registerer) *metrics {
+	m := &metrics{
+		devices: prometheus.NewGauge(prometheus.GaugeOpts{
+			Name: "devices_total",
+			Help: "Total number of devices",
+		}),
+		info: prometheus.NewGaugeVec(prometheus.GaugeOpts{
+			Name: "device_info",
+			Help: "Information about devices",
+		}, []string{"version"}),
+	}
+	reg.MustRegister(m.devices)
+	reg.MustRegister(m.info)
+	return m
 }
 
 func main() {
+
+	reg := prometheus.NewRegistry()
+	reg.MustRegister(collectors.NewGoCollector())
+	m := newMetrics(reg)
+	m.devices.Set(float64(len(dvs)))
+	m.info.With(prometheus.Labels{"version": version}).Set(1)
 	// Prometheus metrics at the /metrics endpoint.
 	//
 	// The metrics come from the default Prometheus registry,
@@ -36,7 +69,8 @@ func main() {
 	// The promhttp.Handler() function gathers all metrics
 	// registered in the default registry and exposes them
 	// in Prometheus text format.
-	http.Handle("/metrics", promhttp.Handler())
+	promHandler := promhttp.HandlerFor(reg, promhttp.HandlerOpts{Registry: reg})
+	http.Handle("/metrics", promHandler)
 
 	http.HandleFunc("/devices", getDevices)
 	http.ListenAndServe(":8081", nil)
