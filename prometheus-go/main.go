@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -59,6 +60,26 @@ func main() {
 	m := newMetrics(reg)
 	m.devices.Set(float64(len(dvs)))
 	m.info.With(prometheus.Labels{"version": version}).Set(1)
+
+	// multiple servers using go routines
+
+	dMux := http.NewServeMux()
+	dMux.HandleFunc("/devices", getDevices) // for serving the main content
+
+	promHandler := promhttp.HandlerFor(reg, promhttp.HandlerOpts{Registry: reg})
+	pMux := http.NewServeMux()
+	pMux.Handle("/metrics", promHandler)
+
+	go func() {
+		log.Fatal(http.ListenAndServe(":8080", dMux))
+	}()
+
+	go func() {
+		log.Fatal(http.ListenAndServe(":8081", pMux))
+	}()
+
+	select {}
+
 	// Prometheus metrics at the /metrics endpoint.
 	//
 	// The metrics come from the default Prometheus registry,
@@ -69,11 +90,6 @@ func main() {
 	// The promhttp.Handler() function gathers all metrics
 	// registered in the default registry and exposes them
 	// in Prometheus text format.
-	promHandler := promhttp.HandlerFor(reg, promhttp.HandlerOpts{Registry: reg})
-	http.Handle("/metrics", promHandler)
-
-	http.HandleFunc("/devices", getDevices)
-	http.ListenAndServe(":8081", nil)
 }
 
 // handler for getting list of devices
