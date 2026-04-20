@@ -1,0 +1,2 @@
+This message is being read from the text file. 
+The response being sent is in the json format
