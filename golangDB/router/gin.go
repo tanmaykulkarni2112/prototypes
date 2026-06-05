@@ -9,7 +9,10 @@ import (
 
 func CreateGinRouter() {
 	router := gin.Default()
+
 	router.GET("/hello", handler.GetHello)
+	router.GET("/data", handler.GetContent)
+
 	err := router.Run("localhost:9991")
 	if err != nil {
 		log.Fatal("Router could not be started")

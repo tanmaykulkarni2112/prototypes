@@ -1,0 +1,159 @@
+{
+  "documentId": "doc-2026-001",
+  "version": 12,
+  "createdAt": "2026-06-05T10:15:30Z",
+  "updatedAt": "2026-06-05T14:45:12Z",
+  "active": true,
+  "owner": {
+    "id": "user-1001",
+    "name": "Tanmay Kulkarni",
+    "email": "tanmay@example.com",
+    "department": "Engineering",
+    "location": {
+      "city": "Pune",
+      "state": "Maharashtra",
+      "country": "India",
+      "zipcode": "411001"
+    }
+  },
+  "settings": {
+    "theme": "dark",
+    "notifications": true,
+    "language": "en",
+    "timezone": "Asia/Kolkata",
+    "autoSave": true,
+    "backupIntervalMinutes": 15
+  },
+  "statistics": {
+    "views": 15672,
+    "downloads": 3819,
+    "shares": 920,
+    "likes": 8241,
+    "rating": 4.7,
+    "engagementScore": 91.34
+  },
+  "tags": ["golang", "database", "json", "benchmark", "performance", "storage"],
+  "permissions": [
+    {
+      "role": "admin",
+      "read": true,
+      "write": true,
+      "delete": true
+    },
+    {
+      "role": "editor",
+      "read": true,
+      "write": true,
+      "delete": false
+    },
+    {
+      "role": "viewer",
+      "read": true,
+      "write": false,
+      "delete": false
+    }
+  ],
+  "projects": [
+    {
+      "projectId": "proj-101",
+      "name": "Analytics Engine",
+      "budget": 250000,
+      "completed": false,
+      "teamMembers": [
+        {
+          "id": "emp-01",
+          "name": "Alice",
+          "designation": "Backend Engineer",
+          "salary": 1800000
+        },
+        {
+          "id": "emp-02",
+          "name": "Bob",
+          "designation": "DevOps Engineer",
+          "salary": 1700000
+        }
+      ]
+    },
+    {
+      "projectId": "proj-102",
+      "name": "Storage Layer",
+      "budget": 500000,
+      "completed": true,
+      "teamMembers": [
+        {
+          "id": "emp-03",
+          "name": "Charlie",
+          "designation": "Architect",
+          "salary": 2500000
+        },
+        {
+          "id": "emp-04",
+          "name": "David",
+          "designation": "Database Engineer",
+          "salary": 2100000
+        }
+      ]
+    }
+  ],
+  "inventory": [
+    {
+      "sku": "LAPTOP-001",
+      "name": "Developer Laptop",
+      "quantity": 15,
+      "unitPrice": 85000.5,
+      "supplier": "Tech Supplies Ltd"
+    },
+    {
+      "sku": "MONITOR-002",
+      "name": "4K Monitor",
+      "quantity": 40,
+      "unitPrice": 22000.75,
+      "supplier": "Display Corp"
+    },
+    {
+      "sku": "SERVER-003",
+      "name": "Rack Server",
+      "quantity": 8,
+      "unitPrice": 350000.0,
+      "supplier": "Enterprise Systems"
+    }
+  ],
+  "auditLog": [
+    {
+      "timestamp": "2026-06-01T08:00:00Z",
+      "action": "CREATE",
+      "user": "admin",
+      "success": true
+    },
+    {
+      "timestamp": "2026-06-02T12:30:00Z",
+      "action": "UPDATE",
+      "user": "editor",
+      "success": true
+    },
+    {
+      "timestamp": "2026-06-03T17:15:00Z",
+      "action": "DELETE_ATTEMPT",
+      "user": "viewer",
+      "success": false
+    }
+  ],
+  "metrics": {
+    "cpuUsage": 67.4,
+    "memoryUsageMB": 4096,
+    "diskUsageGB": 512.78,
+    "network": {
+      "inboundMbps": 245.3,
+      "outboundMbps": 112.9,
+      "packetLossPercent": 0.02
+    }
+  },
+  "features": {
+    "caching": true,
+    "compression": true,
+    "encryption": true,
+    "replication": false,
+    "archival": true
+  },
+  "notes": "This JSON document is intentionally large and varied to test file reading, unmarshalling, indexing, caching, and performance optimization strategies in Go."
+}
