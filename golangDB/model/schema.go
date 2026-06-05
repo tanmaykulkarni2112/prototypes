@@ -1,12 +1,12 @@
 package model
 
+import "encoding/json"
+
 type ResponseMsg struct {
 	Message string `json:"message"`
 }
 
-type DemoSchema struct {
-	ID     string  `json:"id"`
-	Title  string  `json:"title"`
-	Artist string  `json:"artist"`
-	Price  float64 `json:"price"`
+type RequestBody struct {
+	TableName string `json:"tablename" binding:"required"`
+	Data      json.RawMessage `json:"data"`
 }

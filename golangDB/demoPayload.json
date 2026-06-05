@@ -1,0 +1,11 @@
+{
+  "tablename": "string",
+  "UUID": 2223,
+  "data": {
+    "key1": "value1",
+    "key2": [],
+    "key3": {}
+  },
+  "createdAt": 12312,
+  "updatedAt": 12312
+}
